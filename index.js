@@ -120,6 +120,15 @@ async function renderFromFile(templatePath, options = {}) {
   }
 
   return renderTemplate(template, options);
+  const express = require("express");
+const app = express();
+
+app.use(express.json({ limit: "10mb" }));
+
+// ✅ Test route
+app.get("/", (req, res) => {
+  res.send("Render Engine Running 🚀");
+});
 }
 
 module.exports = { renderTemplate, renderFromFile };
