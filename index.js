@@ -132,3 +132,27 @@ app.get("/", (req, res) => {
 }
 
 module.exports = { renderTemplate, renderFromFile };
+app.post("/render", async (req, res) => {
+  try {
+    const template = req.body;
+
+    const buffer = await renderTemplate(template, {
+      format: "png",
+      quality: 100
+    });
+
+    res.setHeader("Content-Type", "image/png");
+    res.send(buffer);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: error.message
+    });
+  }
+});
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
